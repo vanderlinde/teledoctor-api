@@ -1,0 +1,59 @@
+###
+# @name admin_jwt_login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "secret"
+}
+###
+
+@jwt = {{admin_jwt_login.response.body.access_token }}
+
+
+###
+GET http://localhost:3000/admin/doctors
+Authorization: Bearer {{ jwt }}
+
+###
+# @name createDoctor
+POST http://localhost:3000/admin/doctors
+Content-Type: application/json
+Authorization: Bearer {{ jwt }}
+
+{
+    "name": "Doctor 5",
+    "slug": "doctor-5",
+    "about": "About Doctor One",
+    "phone": "(66) 99999-9999"
+}
+###
+
+@doctorId = {{createDoctor.response.body.id }}
+
+
+###
+GET http://localhost:3000/admin/doctors/dr-doctor-1
+Authorization: Bearer {{ jwt }}
+
+
+###
+PATCH http://localhost:3000/admin/doctors/cm4edl3mj0000tgqo2sl0ht41
+Content-Type: application/json
+Authorization: Bearer {{ jwt }}
+
+{
+    "slug": "doctor-1"
+}
+
+
+###
+DELETE http://localhost:3000/admin/doctors/{{doctorId}}
+Authorization: Bearer {{ jwt }}
+
+
+### PUBLIC DOCTORS GetAll
+GET http://localhost:3000/doctors
+### PUBLIC DOCTORS
+GET http://localhost:3000/doctors/dr-doctor-1

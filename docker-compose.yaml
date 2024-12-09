@@ -1,0 +1,41 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres:17.2-alpine3.20
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: telemedicine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: telemedicine@telemedicine.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:  
+      - 5050:80
+    depends_on:
+      - db
+    restart: always
+
+  # app:
+  #   container_name: api-doctortest
+  #   build: .
+  #   volumes:
+  #     - .:/home/node/app
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - db
+  #   restart: always
+  #   networks:
+  #     - networks
+
+networks:
+  default:
+    driver: bridge
