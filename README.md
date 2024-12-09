@@ -44,6 +44,10 @@ $ docker compose up --build -d
 $ npx prisma migrate dev
 ```
 
+## Create the .env file, use env-dev.env
+```bash
+$ mv env-dev.env .env
+```
 
 ## Compile and run the project
 
